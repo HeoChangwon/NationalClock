@@ -1,0 +1,186 @@
+2025-09-09(화) 14:09:27 허창원
+  Prompt:
+  
+    NationalClock 프로젝트를 디버깅하고 있습니다.
+
+    NationalClock 프로젝트의 폴더 구조와 개발관련 문서는 다음과 같습니다.
+
+      프로젝트 폴더 구조는 다음과 같습니다.
+      ```
+      D:\Work_Claude\2025\09\NationalClock\
+      ├── NationalClock/
+      └── Documents/
+      ```
+
+      Requirements 문서(Documents 폴더 내)
+        20250909_0924_NC_Requirements.md
+        
+      Design 문서(Documents 폴더 내)
+        20250909_0925_NC_Design.md
+        
+      Task list 문서(Documents 폴더 내)
+        20250909_1035_NC_Work_list_phase5.md
+
+
+    다음과 같은 예외가 발생합니다.
+    SettingsWindow.xaml 파일은 컨트롤마다 다음과 같은 식의 예외가 다 나는 것 같습니다.
+    Material design  관련해서 아직 미비한 것 같은데, 잘 점검해서 보완해 주세요.
+            
+     System.Windows.Markup.XamlParseException
+      HResult=0x80131501
+      메시지=''System.Windows.StaticResourceExtension'에 대한 값 제공에서 예외가 throw되었습니다.' 줄 번호 '128' 및 줄 위치 '39'
+      소스=PresentationFramework
+      StackTrace:
+       / System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+
+      이 예외는 원래 
+        System.Windows.StaticResourceExtension.ProvideValueInternal(System.IServiceProvider, bool)
+        MS.Internal.Xaml.Runtime.ClrObjectRuntime.CallProvideValue(System.Windows.Markup.MarkupExtension, System.IServiceProvider) 호출 스택에서 throw되었습니다.
+
+    내부 예외 1:
+    Exception: 이름이 'MaterialDesignComboBox'인 리소스를 찾을 수 없습니다. 리소스 이름은 대/소문자를 구분합니다.
+   
+2025-09-09(화) 14:13:17 허창원
+  Prompt:
+    지금은 다음과 같은 예외가 발생합니다.
+
+    System.Windows.Markup.XamlParseException
+      HResult=0x80131501
+      메시지=''System.Windows.StaticResourceExtension'에 대한 값 제공에서 예외가 throw되었습니다.' 줄 번호 '216' 및 줄 위치 '42'
+      소스=PresentationFramework
+      StackTrace:
+       / System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+
+      이 예외는 원래 
+        System.Windows.StaticResourceExtension.ProvideValueInternal(System.IServiceProvider, bool)
+        MS.Internal.Xaml.Runtime.ClrObjectRuntime.CallProvideValue(System.Windows.Markup.MarkupExtension, System.IServiceProvider) 호출 스택에서 throw되었습니다.
+
+    내부 예외 1:
+    Exception: 이름이 'MaterialDesignBody1TextBlock'인 리소스를 찾을 수 없습니다. 리소스 이름은 대/소문자를 구분합니다.
+
+
+  Prompt:
+    Settings 화면에서 Available Timezones에서 선택한 후, Add를 누르려고 보니 버튼이 비활성화되어 있습니다.
+    어떻게 활성화시키나요?
+
+2025-09-09(화) 14:22:57 허창원
+  
+  Prompt: 
+    Add 버튼을 눌렀더니 다음과 같은 예외가 발생했습니다.
+      
+    System.NullReferenceException
+      HResult=0x80004003
+      메시지=Object reference not set to an instance of an object.
+      소스=NationalClock
+      StackTrace:
+       / NationalClock.ViewModels.SettingsViewModel.<>c.<AddTimeZone>b__26_0(TimeZoneInfo tz) 파일 D:\Work_Claude\2025\09\NationalClock\NationalClock\ViewModels\SettingsViewModel.cs:줄 128
+
+
+  Prompt:
+      
+    Add를 했는데, Enabled Timezones 쪽으로 옮겨가지 않습니다.
+    그리고, 다음과 같은 예외가 발생합니다.
+
+    System.NullReferenceException
+      HResult=0x80004003
+      메시지=Object reference not set to an instance of an object.
+      소스=NationalClock
+      StackTrace:
+       / NationalClock.ViewModels.SettingsViewModel.UpdateDisplayOrders() 파일 D:\Work_Claude\2025\09\NationalClock\NationalClock\ViewModels\SettingsViewModel.cs:줄 573
+
+
+  Prompt:
+
+
+
+  Prompt:
+
+
+
+  Prompt:
+
+
+
+  Prompt:
+
+
+
+  Prompt:
+
+  
+  
+
+
+요약 및 프롬프트 양식 샘플 ------------------------------
+NationalClock (NC)
+
+20250909_1357 : Prompt
+20250909_1358 : Development note
+20250909_1359 : Chat
+20250909_1400 : Work list
+20250909_1401 : Next chat prompt
+
+  Claude 실행위치
+    D:\Work_Claude\2025\09\NationalClock
+
+  NC Documents 폴더
+    D:\Work_Claude\2025\09\NationalClock\Documents
+
+  본 문서(Documents 폴더)
+    20250909_1358_NC_Development_note_with_AI.txt
+    
+  chat export하여 저장할 파일명(Documents 폴더)
+    /export .\Documents\20250909_1359_NC_Chat.txt
+        
+  Requirements 문서(NC Documents 폴더 내)
+    20250822_0944_NC_Requirements.md
+    
+  Design 문서(NC Documents 폴더 내)
+    20250822_0945_NC_Design.md
+    
+  Task list 문서(NC Documents 폴더 내)
+    20250822_0946_NC_Task_list.md
+    
+  Work list 문서(NC Documents 폴더 내)
+    20250825_1328_NC_Work_list_total.md
+    
+  프롬프트 샘플
+    20250822_0948_NC_Template_Development_note_with_AI.txt
+        
+  Claude Code 새 Chat Session 시작시 프롬프트:
+      
+    NationalClock 프로젝트의 Work list는 Documents 폴더 내의 20250825_1328_NC_Work_list_total.md 파일에 정리되어 있습니다.
+    
+    
+    
+    NationalClock 프로젝트의 폴더 구조와 개발관련 문서는 다음과 같습니다.
+
+      프로젝트 폴더 구조는 다음과 같습니다.
+      ```
+      D:\Work_Claude\2025\09\NationalClock\
+      ├── NationalClock/
+      └── Documents/
+      ```
+
+      Requirements 문서(Documents 폴더 내)
+        20250909_0924_NC_Requirements.md
+        
+      Design 문서(Documents 폴더 내)
+        20250909_0925_NC_Design.md
+        
+      Task list 문서(Documents 폴더 내)
+        20250909_1035_NC_Work_list_phase5.md
+        
+    
+
+  Prompt:
+이번 Chat에서 작업한 내용을 Documents 폴더에 20250909_1400_NC_Work_list.md 파일로 정리해 주세요.
+
+그리고, 작업 내용을 계속 누적해서 정리해 나가는 20250825_1328_NC_Work_list_total.md 파일에도 업데이트해주세요.    
+    
+또, 다음 Chat에서 이번 Chat의 맥락을 이어서 작업해 나가기 위한 프롬프트를 다음 Chat 시점을 기준으로 20250909_1401_NC_Next_chat_prompt.md 파일로 작성해 주세요.
+그리고, 대기해 주세요.
+    
+------------------------------------------------
+
+
