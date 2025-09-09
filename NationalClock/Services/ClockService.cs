@@ -49,7 +49,9 @@ public sealed class ClockService : IDisposable
         };
         _timer.Tick += OnTimerTick;
         
-        InitializeClocks();
+        // Don't initialize clocks here - they will be initialized when Start() is called
+        // after timezone settings are loaded
+        System.Diagnostics.Debug.WriteLine("ClockService: Constructor completed without initializing clocks");
     }
 
     /// <summary>
@@ -111,8 +113,12 @@ public sealed class ClockService : IDisposable
     {
         if (!_disposed && !_timer.IsEnabled)
         {
+            System.Diagnostics.Debug.WriteLine("ClockService.Start: Initializing clocks from enabled timezones");
+            InitializeClocks(); // Initialize clocks based on current enabled timezones
+            System.Diagnostics.Debug.WriteLine($"ClockService.Start: Initialized {_clocks.Count} clocks");
             UpdateAllClocks(); // Update immediately
             _timer.Start();
+            System.Diagnostics.Debug.WriteLine("ClockService.Start: Timer started");
         }
     }
 
@@ -135,16 +141,21 @@ public sealed class ClockService : IDisposable
         lock (_lock)
         {
             _clocks.Clear();
-            var enabledTimeZones = _timeZoneManager.EnabledTimeZones;
+            var enabledTimeZones = _timeZoneManager.EnabledTimeZones.ToList();
+            
+            System.Diagnostics.Debug.WriteLine($"ClockService.InitializeClocks: Found {enabledTimeZones.Count} enabled timezones");
             
             foreach (var timeZone in enabledTimeZones)
             {
+                System.Diagnostics.Debug.WriteLine($"ClockService.InitializeClocks: Creating clock for {timeZone.DisplayName} (ID: {timeZone.Id})");
                 var clockInfo = new ClockInfo(timeZone)
                 {
                     Is24HourFormat = _is24HourFormat
                 };
                 _clocks.Add(clockInfo);
             }
+            
+            System.Diagnostics.Debug.WriteLine($"ClockService.InitializeClocks: Added {_clocks.Count} clocks to collection");
         }
     }
 

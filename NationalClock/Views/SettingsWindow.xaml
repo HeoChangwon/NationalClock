@@ -18,7 +18,8 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        Icon="pack://application:,,,/Resources/NationalClock.ico">
     
     <Window.Resources>
         <!-- Timezone Item Template -->

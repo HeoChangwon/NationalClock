@@ -7,12 +7,51 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>Resources\NationalClock.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.0.1</Version>
+    <InformationalVersion>1.0.001</InformationalVersion>
+    <Product>NationalClock</Product>
+    <Title>NationalClock</Title>
+    <Description>Multi-timezone World Clock Application</Description>
+    <Copyright>Copyright © 2025</Copyright>
+    
+    <!-- Custom properties for version display -->
+    <ApplicationDisplayName>NationalClock</ApplicationDisplayName>
+    <DisplayVersion>1.0.001</DisplayVersion>
+    <BuildDateTime>2025-09-09 19:52</BuildDateTime>
+    
+    <!-- Framework-dependent deployment settings -->
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier />
+    <UseAppHost>true</UseAppHost>
+    <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
     <PackageReference Include="System.Text.Json" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\NationalClock.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ApplicationDisplayName</_Parameter1>
+      <_Parameter2>$(ApplicationDisplayName)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>DisplayVersion</_Parameter1>
+      <_Parameter2>$(DisplayVersion)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>BuildDateTime</_Parameter1>
+      <_Parameter2>$(BuildDateTime)</_Parameter2>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

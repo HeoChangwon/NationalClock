@@ -7,8 +7,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Material Design Resources -->
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Pink" />
+                <!-- Material Design Resources - BaseTheme will be dynamically updated by ThemeManager -->
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue" />
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Basic Application Resources -->

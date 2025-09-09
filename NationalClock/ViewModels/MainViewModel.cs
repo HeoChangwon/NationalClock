@@ -30,7 +30,10 @@ public partial class MainViewModel : BaseViewModel, IDisposable
     private bool _isAlwaysOnTop = false;
 
     [ObservableProperty]
-    private string _windowTitle = "National Clock";
+    private string _windowTitle = VersionInfo.FullTitle;
+
+    [ObservableProperty]
+    private string _clientTitle = "National Clock";
 
     /// <summary>
     /// Constructor with dependency injection of required services
@@ -135,8 +138,11 @@ public partial class MainViewModel : BaseViewModel, IDisposable
                 // Enable the timezone
                 _timeZoneManager.SetTimeZoneEnabled(availableTimeZone.Id, true);
                 
-                // Update settings
-                var enabledIds = _timeZoneManager.EnabledTimeZones.Select(tz => tz.Id).ToList();
+                // Update settings (filter out nulls)
+                var enabledIds = _timeZoneManager.EnabledTimeZones
+                    .Where(tz => tz != null)
+                    .Select(tz => tz.Id)
+                    .ToList();
                 _settingsManager.UpdateSetting(s => s.EnabledTimeZoneIds = enabledIds);
 
                 // Refresh clocks
@@ -249,6 +255,11 @@ public partial class MainViewModel : BaseViewModel, IDisposable
         {
             var settings = _settingsManager.CurrentSettings;
             
+            System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: Loading settings");
+            System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: Is24HourFormat: {settings.Is24HourFormat}");
+            System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: IsDarkMode: {settings.IsDarkMode}");
+            System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: IsAlwaysOnTop: {settings.IsAlwaysOnTop}");
+            
             Is24HourFormat = settings.Is24HourFormat;
             IsDarkMode = settings.IsDarkMode;
             IsAlwaysOnTop = settings.IsAlwaysOnTop;
@@ -256,11 +267,20 @@ public partial class MainViewModel : BaseViewModel, IDisposable
             // Apply clock format
             _clockService.Is24HourFormat = Is24HourFormat;
             
-            // Apply theme
-            _themeManager.IsDarkMode = IsDarkMode;
+            // Apply theme using the proper method that handles Material Design
+            _themeManager.ApplySettingsTheme(settings);
 
             // Update window title based on enabled clocks count
             UpdateWindowTitle();
+            
+            // Apply always on top setting to window if available
+            if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Topmost = IsAlwaysOnTop;
+                System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: Applied Topmost to MainWindow: {IsAlwaysOnTop}");
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"MainViewModel.InitializeFromSettings: Settings initialization completed");
         }
         catch (Exception ex)
         {
@@ -269,21 +289,28 @@ public partial class MainViewModel : BaseViewModel, IDisposable
     }
 
     /// <summary>
-    /// Updates the window title based on the number of enabled clocks
+    /// Updates the window title and client title based on the number of enabled clocks
     /// </summary>
     private void UpdateWindowTitle()
     {
         try
         {
             var enabledCount = _timeZoneManager.EnabledTimeZones.Count();
-            WindowTitle = enabledCount > 0 
-                ? $"National Clock ({enabledCount} {(enabledCount == 1 ? "clock" : "clocks")})"
-                : "National Clock";
+            
+            // Window title shows full version info
+            WindowTitle = VersionInfo.FullTitle;
+            
+            // Client title shows app name with clock count
+            var clockInfo = enabledCount > 0 
+                ? $" ({enabledCount} {(enabledCount == 1 ? "clock" : "clocks")})"
+                : "";
+            ClientTitle = $"National Clock{clockInfo}";
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error updating window title: {ex.Message}");
-            WindowTitle = "National Clock";
+            WindowTitle = VersionInfo.FullTitle;
+            ClientTitle = "National Clock";
         }
     }
 

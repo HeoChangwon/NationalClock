@@ -60,6 +60,7 @@ public sealed class TimeZoneManager
 
     /// <summary>
     /// Initializes the default timezone data for Korea, Michigan (US), and Poland
+    /// All timezones start as disabled and will be enabled based on saved settings
     /// </summary>
     private void InitializeDefaultTimeZones()
     {
@@ -71,7 +72,7 @@ public sealed class TimeZoneManager
                 displayName: "Seoul, South Korea",
                 timeZoneId: "Korea Standard Time",
                 flagEmoji: "🇰🇷",
-                isEnabled: true,
+                isEnabled: false,  // Start disabled, will be enabled by settings
                 displayOrder: 1
             ),
 
@@ -81,7 +82,7 @@ public sealed class TimeZoneManager
                 displayName: "Michigan, United States",
                 timeZoneId: "Eastern Standard Time",
                 flagEmoji: "🇺🇸",
-                isEnabled: true,
+                isEnabled: false,  // Start disabled, will be enabled by settings
                 displayOrder: 2
             ),
 
@@ -91,7 +92,7 @@ public sealed class TimeZoneManager
                 displayName: "Warsaw, Poland",
                 timeZoneId: "Central European Standard Time",
                 flagEmoji: "🇵🇱",
-                isEnabled: true,
+                isEnabled: false,  // Start disabled, will be enabled by settings
                 displayOrder: 3
             ),
 
@@ -342,10 +343,17 @@ public sealed class TimeZoneManager
         lock (_lock)
         {
             var enabledSet = new HashSet<int>(enabledIds);
+            System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: Updating with IDs: [{string.Join(", ", enabledIds)}]");
+            System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: Total timezones available: {_allTimeZones.Count}");
 
             foreach (var timeZone in _allTimeZones)
             {
+                var wasEnabled = timeZone.IsEnabled;
                 timeZone.IsEnabled = enabledSet.Contains(timeZone.Id);
+                if (wasEnabled != timeZone.IsEnabled)
+                {
+                    System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: {timeZone.DisplayName} (ID: {timeZone.Id}) - Enabled: {timeZone.IsEnabled}");
+                }
             }
 
             // Update display orders to match the order in enabledIds
@@ -356,8 +364,16 @@ public sealed class TimeZoneManager
                 if (timeZone != null)
                 {
                     timeZone.DisplayOrder = i + 1;
+                    System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: Set {timeZone.DisplayName} DisplayOrder to {timeZone.DisplayOrder}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: Could not find timezone with ID {idList[i]}");
                 }
             }
+            
+            var enabledCount = _allTimeZones.Count(tz => tz.IsEnabled);
+            System.Diagnostics.Debug.WriteLine($"TimeZoneManager.UpdateEnabledTimeZones: Total enabled timezones: {enabledCount}");
         }
     }
 

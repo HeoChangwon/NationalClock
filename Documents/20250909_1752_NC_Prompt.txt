@@ -1,0 +1,146 @@
+
+2025-09-09(화) 17:53:50 허창원
+  Prompt:
+    NationalClock 프로젝트에서
+    여전히 프로그램을 다시 실행하면 이전의 Theme가 표시되지 않습니다.
+
+    NationalClock 프로젝트의 폴더 구조와 개발관련 문서는 다음과 같습니다.
+
+      프로젝트 폴더 구조는 다음과 같습니다.
+      ```
+      D:\Work_Claude\2025\09\NationalClock\
+      ├── NationalClock/
+      └── Documents/
+      ```
+
+      Requirements 문서(Documents 폴더 내)
+        20250909_0924_NC_Requirements.md
+        
+      Design 문서(Documents 폴더 내)
+        20250909_0925_NC_Design.md
+        
+      마지막 Work list 문서(Documents 폴더 내)
+        20250909_1541_NC_Work_list.md
+
+  Prompt:
+    여전히 새로 실행했을 때, 이전의 Theme로 표시되지 않는데,
+    Settings의 Enabled Timezones에 선택된 것이 표시되도록 하는 것부터 해결해 주세요.
+    프로그램이 새로 시작되면 default 3개의 시계가 항상 표시됩니다.
+
+2025-09-09(화) 19:38:51 허창원
+  Prompt:
+    프로그램을 실행하면, 시계가 하나도 표시되지 않습니다. Theme도 이전 설정이 적용되지 않구요.
+    화면 표시가 적절히 이루어지지 않는 것 같습니다.
+
+2025-09-09(화) 19:46:34 허창원
+  Prompt:
+    디버그 로그를 보면, 프로그램 시작시에 Dark 모드가 True로 나오는데, 화면에는 light 모드로 표시됩니다.
+
+    App.InitializeServices: Loading settings - EnabledTimeZoneIds: [1, 4]
+    App.InitializeServices: Window position: 2232, 1068
+    App.InitializeServices: Window size: 625x566
+    App.InitializeServices: Theme settings - IsDarkMode: True, AccentColor: Blue
+    ThemeManager.ApplySettingsTheme: Applying IsDarkMode: True, AccentColor: Blue
+    ThemeManager.ApplyTheme: Applying theme - isDark: True
+    ThemeManager.ApplyTheme: Theme applied successfully - BaseTheme: Dark
+    ThemeManager.ApplySettingsTheme: Applied theme successfully
+    App.InitializeServices: Applied to ThemeManager - IsDarkMode: True, AccentColor: Blue
+    TimeZoneManager.UpdateEnabledTimeZones: Updating with IDs: [1, 4]
+    TimeZoneManager.UpdateEnabledTimeZones: Total timezones available: 10
+    TimeZoneManager.UpdateEnabledTimeZones: Seoul, South Korea (ID: 1) - Enabled: True
+    TimeZoneManager.UpdateEnabledTimeZones: London, United Kingdom (ID: 4) - Enabled: True
+    TimeZoneManager.UpdateEnabledTimeZones: Set Seoul, South Korea DisplayOrder to 1
+    TimeZoneManager.UpdateEnabledTimeZones: Set London, United Kingdom DisplayOrder to 2
+    TimeZoneManager.UpdateEnabledTimeZones: Total enabled timezones: 2
+    App.InitializeServices: Applied timezone settings
+    Services initialized successfully
+
+2025-09-09(화) 19:54:18 허창원
+  Prompt:
+    이번 Chat에서 작업한 내용을 Documents 폴더에 20250909_1755_NC_Work_list.md 파일로 정리해 주세요.
+
+
+  Prompt:
+
+
+
+  Prompt:
+
+
+  
+
+
+요약 및 프롬프트 양식 샘플 ------------------------------
+NationalClock (NC)
+
+20250909_1752 : Prompt
+20250909_1753 : Development note
+20250909_1754 : Chat
+20250909_1755 : Work list
+20250909_1756 : Next chat prompt
+
+  Claude 실행위치
+    D:\Work_Claude\2025\09\NationalClock
+
+  NC Documents 폴더
+    D:\Work_Claude\2025\09\NationalClock\Documents
+
+  본 문서(Documents 폴더)
+    20250909_1753_NC_Development_note_with_AI.txt
+    
+  chat export하여 저장할 파일명(Documents 폴더)
+    /export .\Documents\20250909_1754_NC_Chat.txt
+        
+  Requirements 문서(NC Documents 폴더 내)
+    20250822_0944_NC_Requirements.md
+    
+  Design 문서(NC Documents 폴더 내)
+    20250822_0945_NC_Design.md
+    
+  Task list 문서(NC Documents 폴더 내)
+    20250822_0946_NC_Task_list.md
+    
+  Work list 문서(NC Documents 폴더 내)
+    20250825_1328_NC_Work_list_total.md
+    
+  프롬프트 샘플
+    20250822_0948_NC_Template_Development_note_with_AI.txt
+        
+  Claude Code 새 Chat Session 시작시 프롬프트:
+      
+    NationalClock 프로젝트의 Work list는 Documents 폴더 내의 20250825_1328_NC_Work_list_total.md 파일에 정리되어 있습니다.
+    
+    
+    
+    개발관련 폴더와 문서는 다음과 같습니다.
+
+      Requirements 문서(Documents 폴더 내)
+        20250822_0944_NC_Requirements.md
+        
+      Design 문서(Documents 폴더 내)
+        20250822_0945_NC_Design.md
+        
+      Task list 문서(Documents 폴더 내)
+        20250822_0946_NC_Task_list.md
+        
+      Work list 문서(Documents 폴더 내)
+        20250825_1328_NC_Work_list_total.md
+    
+    프로젝트 폴더 구조는 다음과 같습니다.
+    ```
+    D:\Work_Claude\2025\09\NationalClock\
+    ├── NationalClock/
+    └── Documents/
+    ```
+
+  Prompt:
+이번 Chat에서 작업한 내용을 Documents 폴더에 20250909_1755_NC_Work_list.md 파일로 정리해 주세요.
+
+그리고, 작업 내용을 계속 누적해서 정리해 나가는 20250825_1328_NC_Work_list_total.md 파일에도 업데이트해주세요.    
+    
+또, 다음 Chat에서 이번 Chat의 맥락을 이어서 작업해 나가기 위한 프롬프트를 다음 Chat 시점을 기준으로 20250909_1756_NC_Next_chat_prompt.md 파일로 작성해 주세요.
+그리고, 대기해 주세요.
+    
+------------------------------------------------
+
+

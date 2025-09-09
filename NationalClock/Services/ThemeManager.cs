@@ -35,8 +35,11 @@ public sealed class ThemeManager
     /// </summary>
     private ThemeManager()
     {
+        System.Diagnostics.Debug.WriteLine("ThemeManager: Constructor started");
         _paletteHelper = new PaletteHelper();
+        System.Diagnostics.Debug.WriteLine($"ThemeManager: Before InitializeTheme - _isDarkMode: {_isDarkMode}");
         InitializeTheme();
+        System.Diagnostics.Debug.WriteLine($"ThemeManager: After InitializeTheme - _isDarkMode: {_isDarkMode}");
     }
 
     /// <summary>
@@ -47,11 +50,18 @@ public sealed class ThemeManager
         get => _isDarkMode;
         set
         {
+            System.Diagnostics.Debug.WriteLine($"ThemeManager.IsDarkMode setter: Current: {_isDarkMode}, New: {value}");
+            
             if (_isDarkMode != value)
             {
                 _isDarkMode = value;
+                System.Diagnostics.Debug.WriteLine($"ThemeManager.IsDarkMode setter: Value changed, calling ApplyTheme({value})");
                 ApplyTheme(value);
                 ThemeChanged?.Invoke(this, value);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"ThemeManager.IsDarkMode setter: Value unchanged, skipping ApplyTheme");
             }
         }
     }
@@ -99,15 +109,22 @@ public sealed class ThemeManager
     };
 
     /// <summary>
-    /// Initializes the theme system
+    /// Initializes the theme system with basic Material Design setup
+    /// Actual theme will be applied later via ApplySettingsTheme
     /// </summary>
     private void InitializeTheme()
     {
         try
         {
-            // Set initial theme to light mode
-            ApplyTheme(false);
-            ApplyAccentColor("Blue");
+            System.Diagnostics.Debug.WriteLine("ThemeManager.InitializeTheme: Starting basic initialization");
+            
+            // Set initial defaults but don't apply theme yet
+            // The actual theme will be applied by ApplySettingsTheme() in App.cs
+            _isDarkMode = false;
+            _currentAccentColor = "Blue";
+            
+            System.Diagnostics.Debug.WriteLine($"ThemeManager.InitializeTheme: Set default values - _isDarkMode: {_isDarkMode}, _currentAccentColor: {_currentAccentColor}");
+            System.Diagnostics.Debug.WriteLine("ThemeManager.InitializeTheme: Basic initialization completed - theme will be applied by ApplySettingsTheme()");
         }
         catch (Exception ex)
         {
@@ -123,12 +140,16 @@ public sealed class ThemeManager
     {
         try
         {
+            System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplyTheme: Applying theme - isDark: {isDark}");
+            
             var theme = _paletteHelper.GetTheme();
             
             // Set base theme
             theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
             
             _paletteHelper.SetTheme(theme);
+            
+            System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplyTheme: Theme applied successfully - BaseTheme: {(isDark ? "Dark" : "Light")}");
         }
         catch (Exception ex)
         {
@@ -241,8 +262,17 @@ public sealed class ThemeManager
     {
         if (settings == null) return;
 
-        IsDarkMode = settings.IsDarkMode;
-        CurrentAccentColor = settings.ThemeAccentColor;
+        System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplySettingsTheme: Applying IsDarkMode: {settings.IsDarkMode}, AccentColor: {settings.ThemeAccentColor}");
+        
+        // Update internal fields first to avoid triggering events during initialization
+        _isDarkMode = settings.IsDarkMode;
+        _currentAccentColor = settings.ThemeAccentColor;
+        
+        // Apply the theme
+        ApplyTheme(settings.IsDarkMode);
+        ApplyAccentColor(settings.ThemeAccentColor);
+        
+        System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplySettingsTheme: Applied theme successfully");
     }
 
     /// <summary>

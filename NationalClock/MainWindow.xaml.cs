@@ -15,7 +15,11 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        System.Diagnostics.Debug.WriteLine("MainWindow: Constructor started");
+        
         InitializeComponent();
+        
+        System.Diagnostics.Debug.WriteLine($"MainWindow: After InitializeComponent - Position: {Left}, {Top}");
         
         // Initialize services
         _settingsManager = SettingsManager.Instance;
@@ -30,11 +34,16 @@ public partial class MainWindow : Window
         // Set DataContext
         DataContext = _viewModel;
         
-        // Load and apply window settings
-        LoadWindowSettings();
-        
         // Subscribe to theme changes for dynamic updates
         ThemeManager.Instance.ThemeChanged += OnThemeChanged;
+        
+        System.Diagnostics.Debug.WriteLine($"MainWindow: Before LoadWindowSettings - Position: {Left}, {Top}");
+        
+        // Load and apply window settings after ViewModel is initialized
+        LoadWindowSettings();
+        
+        System.Diagnostics.Debug.WriteLine($"MainWindow: After LoadWindowSettings - Position: {Left}, {Top}");
+        System.Diagnostics.Debug.WriteLine("MainWindow: Constructor completed");
     }
 
     /// <summary>
@@ -46,27 +55,36 @@ public partial class MainWindow : Window
         {
             var settings = _settingsManager.CurrentSettings;
             
+            System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Loading window settings");
+            System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Settings position: {settings.WindowLeft}, {settings.WindowTop}");
+            System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Settings size: {settings.WindowWidth}x{settings.WindowHeight}");
+            System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Current position before: {Left}, {Top}");
+            
             // Restore window position and size
             if (settings.WindowLeft >= 0 && settings.WindowTop >= 0)
             {
                 Left = settings.WindowLeft;
                 Top = settings.WindowTop;
+                System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Applied position: {Left}, {Top}");
             }
             
             if (settings.WindowWidth > 0 && settings.WindowHeight > 0)
             {
                 Width = Math.Max(settings.WindowWidth, MinWidth);
                 Height = Math.Max(settings.WindowHeight, MinHeight);
+                System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Applied size: {Width}x{Height}");
             }
             
             // Restore window state
             if (settings.IsWindowMaximized)
             {
                 WindowState = WindowState.Maximized;
+                System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Applied maximized state");
             }
             
             // Apply always on top setting
             Topmost = settings.IsAlwaysOnTop;
+            System.Diagnostics.Debug.WriteLine($"MainWindow.LoadWindowSettings: Applied always on top: {Topmost}");
         }
         catch (Exception ex)
         {
@@ -201,8 +219,10 @@ public partial class MainWindow : Window
         
         try
         {
+            System.Diagnostics.Debug.WriteLine($"MainWindow.OnSourceInitialized: Before EnsureWindowOnScreen - Position: {Left}, {Top}");
             // Ensure window is positioned correctly on the screen
             EnsureWindowOnScreen();
+            System.Diagnostics.Debug.WriteLine($"MainWindow.OnSourceInitialized: After EnsureWindowOnScreen - Position: {Left}, {Top}");
         }
         catch (Exception ex)
         {
@@ -220,19 +240,45 @@ public partial class MainWindow : Window
             var screenWidth = SystemParameters.PrimaryScreenWidth;
             var screenHeight = SystemParameters.PrimaryScreenHeight;
             
+            System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Screen size: {screenWidth}x{screenHeight}");
+            System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Current position: {Left}, {Top}");
+            System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Current size: {Width}x{Height}");
+            
+            var originalLeft = Left;
+            var originalTop = Top;
+            
             // Ensure window is not positioned off-screen
             if (Left + Width > screenWidth)
             {
                 Left = Math.Max(0, screenWidth - Width);
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Adjusted Left from {originalLeft} to {Left} (too far right)");
             }
             
             if (Top + Height > screenHeight)
             {
                 Top = Math.Max(0, screenHeight - Height);
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Adjusted Top from {originalTop} to {Top} (too far down)");
             }
             
-            if (Left < 0) Left = 0;
-            if (Top < 0) Top = 0;
+            if (Left < 0) 
+            {
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Adjusted Left from {Left} to 0 (negative)");
+                Left = 0;
+            }
+            if (Top < 0) 
+            {
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Adjusted Top from {Top} to 0 (negative)");
+                Top = 0;
+            }
+            
+            if (originalLeft != Left || originalTop != Top)
+            {
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Position changed from ({originalLeft}, {originalTop}) to ({Left}, {Top})");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"MainWindow.EnsureWindowOnScreen: Position unchanged");
+            }
         }
         catch (Exception ex)
         {

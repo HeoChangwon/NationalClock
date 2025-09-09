@@ -206,16 +206,22 @@ public partial class SettingsViewModel : BaseViewModel
                 EnabledTimeZones.Remove(SelectedEnabledTimeZone);
                 AvailableTimeZones.Add(SelectedEnabledTimeZone);
 
-                // Sort available timezones by display order
-                var sortedAvailable = AvailableTimeZones.OrderBy(tz => tz.DisplayOrder).ToList();
+                // Sort available timezones by display order (filter out nulls)
+                var sortedAvailable = AvailableTimeZones
+                    .Where(tz => tz != null)
+                    .OrderBy(tz => tz.DisplayOrder)
+                    .ToList();
                 AvailableTimeZones.Clear();
                 foreach (var tz in sortedAvailable)
                 {
                     AvailableTimeZones.Add(tz);
                 }
 
-                // Update working settings
-                _workingSettings.EnabledTimeZoneIds = EnabledTimeZones.Select(tz => tz.Id).ToList();
+                // Update working settings (filter out nulls)
+                _workingSettings.EnabledTimeZoneIds = EnabledTimeZones
+                    .Where(tz => tz != null)
+                    .Select(tz => tz.Id)
+                    .ToList();
 
                 // Clear selection
                 SelectedEnabledTimeZone = null;
@@ -348,9 +354,8 @@ public partial class SettingsViewModel : BaseViewModel
                 // Apply timezone changes to TimeZoneManager
                 ApplyTimeZoneChanges();
 
-                // Apply theme changes
-                _themeManager.IsDarkMode = IsDarkMode;
-                _themeManager.CurrentAccentColor = SelectedAccentColor;
+                // Apply theme changes using the proper method
+                _themeManager.ApplySettingsTheme(_workingSettings);
 
                 // Apply clock service settings
                 _clockService.Is24HourFormat = Is24HourFormat;
@@ -442,8 +447,7 @@ public partial class SettingsViewModel : BaseViewModel
 
                     // Apply changes immediately
                     ApplyTimeZoneChanges();
-                    _themeManager.IsDarkMode = IsDarkMode;
-                    _themeManager.CurrentAccentColor = SelectedAccentColor;
+                    _themeManager.ApplySettingsTheme(_workingSettings);
                     _clockService.Is24HourFormat = Is24HourFormat;
                     _clockService.UpdateIntervalSeconds = UpdateIntervalSeconds;
                     _clockService.RefreshClocks();
@@ -473,8 +477,10 @@ public partial class SettingsViewModel : BaseViewModel
         try
         {
             // Apply theme temporarily for preview
-            _themeManager.IsDarkMode = IsDarkMode;
-            _themeManager.CurrentAccentColor = SelectedAccentColor;
+            var previewSettings = _workingSettings.Clone();
+            previewSettings.IsDarkMode = IsDarkMode;
+            previewSettings.ThemeAccentColor = SelectedAccentColor;
+            _themeManager.ApplySettingsTheme(previewSettings);
         }
         catch (Exception ex)
         {
@@ -631,7 +637,10 @@ public partial class SettingsViewModel : BaseViewModel
         _workingSettings.AutoStartWithWindows = AutoStartWithWindows;
         _workingSettings.ThemeAccentColor = SelectedAccentColor;
         _workingSettings.UpdateIntervalSeconds = UpdateIntervalSeconds;
-        _workingSettings.EnabledTimeZoneIds = EnabledTimeZones.Select(tz => tz.Id).ToList();
+        _workingSettings.EnabledTimeZoneIds = EnabledTimeZones
+            .Where(tz => tz != null)
+            .Select(tz => tz.Id)
+            .ToList();
     }
 
     /// <summary>
@@ -641,7 +650,10 @@ public partial class SettingsViewModel : BaseViewModel
     {
         try
         {
-            var enabledIds = EnabledTimeZones.Select(tz => tz.Id).ToList();
+            var enabledIds = EnabledTimeZones
+                .Where(tz => tz != null)
+                .Select(tz => tz.Id)
+                .ToList();
             _timeZoneManager.UpdateEnabledTimeZones(enabledIds);
 
             // Update display orders

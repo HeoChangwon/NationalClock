@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Media;
 using NationalClock.Services;
 using MaterialDesignThemes.Wpf;
 
@@ -13,14 +14,17 @@ public partial class App : Application
     {
         try
         {
+            // Fix for WPF stylus input handling issue
+            DisableStylusAndTouch();
+            
             // Set up global exception handlers
             SetupGlobalExceptionHandling();
             
-            // Initialize services
-            InitializeServices();
-            
-            // Initialize Material Design theme
+            // Initialize Material Design theme first
             InitializeMaterialDesign();
+            
+            // Initialize services (this will apply theme settings)
+            InitializeServices();
             
             base.OnStartup(e);
         }
@@ -31,6 +35,34 @@ public partial class App : Application
                           MessageBoxButton.OK, 
                           MessageBoxImage.Error);
             Shutdown(1);
+        }
+    }
+
+    /// <summary>
+    /// Disables stylus and touch input to prevent WPF input handling issues
+    /// </summary>
+    private static void DisableStylusAndTouch()
+    {
+        try
+        {
+            // Disable WPF stylus input
+            AppContext.SetSwitch("Switch.System.Windows.Input.Stylus.DisableStylusAndTouchSupport", true);
+            
+            // Alternative method using reflection if the above doesn't work
+            var stylusInputType = typeof(System.Windows.Input.StylusPlugIns.StylusPlugIn).Assembly
+                .GetType("System.Windows.Input.Stylus");
+            
+            if (stylusInputType != null)
+            {
+                var disableProperty = stylusInputType.GetProperty("DisableStylusAndTouchSupport", 
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                
+                disableProperty?.SetValue(null, true);
+            }
+        }
+        catch
+        {
+            // Ignore errors - this is a best-effort fix
         }
     }
 
@@ -103,21 +135,36 @@ public partial class App : Application
         {
             // Initialize singleton services in proper order
             var settingsManager = SettingsManager.Instance;
+            System.Diagnostics.Debug.WriteLine("App.InitializeServices: SettingsManager created");
+            
             var themeManager = ThemeManager.Instance;
+            System.Diagnostics.Debug.WriteLine("App.InitializeServices: ThemeManager created");
+            
             var timeZoneManager = TimeZoneManager.Instance;
+            System.Diagnostics.Debug.WriteLine("App.InitializeServices: TimeZoneManager created");
+            
             var clockService = ClockService.Instance;
+            System.Diagnostics.Debug.WriteLine("App.InitializeServices: ClockService created");
 
             // Settings will be loaded automatically by the manager
             // settingsManager.LoadSettings();
 
             // Apply initial theme
             var settings = settingsManager.CurrentSettings;
-            themeManager.IsDarkMode = settings.IsDarkMode;
-            themeManager.CurrentAccentColor = settings.ThemeAccentColor;
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Loading settings - EnabledTimeZoneIds: [{string.Join(", ", settings.EnabledTimeZoneIds)}]");
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Window position: {settings.WindowLeft}, {settings.WindowTop}");
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Window size: {settings.WindowWidth}x{settings.WindowHeight}");
+            
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Theme settings - IsDarkMode: {settings.IsDarkMode}, AccentColor: {settings.ThemeAccentColor}");
+            
+            // Apply theme settings using the proper method
+            themeManager.ApplySettingsTheme(settings);
+            
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Applied to ThemeManager - IsDarkMode: {themeManager.IsDarkMode}, AccentColor: {themeManager.CurrentAccentColor}");
 
-            // Initialize timezones - using public method
-            // timeZoneManager.InitializeDefaultTimeZones();
-            // Timezones should be initialized automatically by the manager
+            // Apply timezone settings from saved configuration
+            timeZoneManager.UpdateEnabledTimeZones(settings.EnabledTimeZoneIds);
+            System.Diagnostics.Debug.WriteLine($"App.InitializeServices: Applied timezone settings");
 
             System.Diagnostics.Debug.WriteLine("Services initialized successfully");
         }
@@ -135,27 +182,21 @@ public partial class App : Application
     {
         try
         {
+            System.Diagnostics.Debug.WriteLine("App.InitializeMaterialDesign: Setting up basic Material Design theme (settings will be applied later by ThemeManager)");
+            
+            // Just initialize Material Design with default settings
+            // The actual theme will be applied by ThemeManager in InitializeServices()
             var paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
 
-            // Apply initial theme settings
-            var settingsManager = SettingsManager.Instance;
-            var settings = settingsManager.CurrentSettings;
+            // Set a basic light theme initially
+            theme.SetBaseTheme(BaseTheme.Light);
+            theme.SetPrimaryColor(Colors.Blue);
 
-            // Set base theme (dark/light)
-            theme.SetBaseTheme(settings.IsDarkMode ? BaseTheme.Dark : BaseTheme.Light);
-            
-            // Set primary color based on accent color setting
-            var primaryColor = ThemeManager.GetMaterialDesignColor(settings.ThemeAccentColor);
-            if (primaryColor.HasValue)
-            {
-                theme.SetPrimaryColor(primaryColor.Value);
-            }
-
-            // Apply theme
+            // Apply basic theme
             paletteHelper.SetTheme(theme);
 
-            System.Diagnostics.Debug.WriteLine($"Material Design initialized - Dark: {settings.IsDarkMode}, Accent: {settings.ThemeAccentColor}");
+            System.Diagnostics.Debug.WriteLine("App.InitializeMaterialDesign: Basic Material Design theme initialized");
         }
         catch (Exception ex)
         {
