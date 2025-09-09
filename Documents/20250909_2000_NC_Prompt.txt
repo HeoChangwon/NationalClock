@@ -425,8 +425,9 @@
        / System.Windows.StaticResourceExtension.ProvideValueInternal(IServiceProvider serviceProvider, Boolean allowDeferredReference)
 
 
+2025-09-09(화) 21:31:18 허창원
   Prompt:
-
+    이번 Chat에서 작업한 내용을 Documents 폴더에 20250909_2003_NC_Work_list.md 파일로 정리해 주세요.
 
 
   Prompt:
