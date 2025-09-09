@@ -105,11 +105,13 @@
                             
                             <RadioButton Content="12-Hour Format (AM/PM)" 
                                        IsChecked="{Binding Is24HourFormat, Converter={StaticResource InverseBooleanConverter}}"
-                                                                              Margin="0,4"/>
+                                       Style="{StaticResource MaterialDesignRadioButton}"
+                                       Margin="0,4"/>
                             
                             <RadioButton Content="24-Hour Format" 
                                        IsChecked="{Binding Is24HourFormat}"
-                                                                              Margin="0,4"/>
+                                       Style="{StaticResource MaterialDesignRadioButton}"
+                                       Margin="0,4"/>
                         </StackPanel>
                     </materialDesign:Card>
 
@@ -121,17 +123,30 @@
                                      Margin="0,0,0,12"/>
                             
                             <ToggleButton IsChecked="{Binding IsDarkMode}"
-                                        Content="Dark Mode"
-                                        Margin="0,8"/>
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                        Margin="0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="WeatherNight" Width="16" Height="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Dark Mode"/>
+                                </StackPanel>
+                            </ToggleButton>
                             
                             <ComboBox materialDesign:HintAssist.Hint="Accent Color"
                                     ItemsSource="{Binding AccentColorNames}"
                                     SelectedItem="{Binding SelectedAccentColor}"
+                                    Style="{StaticResource MaterialDesignComboBox}"
                                     Margin="0,8"/>
                             
-                            <Button Content="Preview Theme" 
-                                    Command="{Binding PreviewThemeCommand}"
-                                    Margin="0,8"/>
+                            <Button Command="{Binding PreviewThemeCommand}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                                    Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    Margin="0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Palette" Width="16" Height="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Preview Theme"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </materialDesign:Card>
 
@@ -144,22 +159,27 @@
                             
                             <ToggleButton IsChecked="{Binding IsAlwaysOnTop}"
                                         Content="Always On Top"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                             
                             <ToggleButton IsChecked="{Binding ShowSeconds}"
                                         Content="Show Seconds"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                             
                             <ToggleButton IsChecked="{Binding ShowDate}"
                                         Content="Show Date"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                             
                             <ToggleButton IsChecked="{Binding ShowTimeZoneOffset}"
                                         Content="Show Timezone Offset"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                             
                             <ToggleButton IsChecked="{Binding IsCompactMode}"
                                         Content="Compact Mode"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                         </StackPanel>
                     </materialDesign:Card>
@@ -173,6 +193,7 @@
                             
                             <ToggleButton IsChecked="{Binding AutoStartWithWindows}"
                                         Content="Start with Windows"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                         Margin="0,8"/>
                             
                             <StackPanel Orientation="Horizontal" Margin="0,8">

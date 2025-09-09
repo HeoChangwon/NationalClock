@@ -11,7 +11,27 @@
 
 - 설치 형식
   설치형식을 Framework-dependent (.NET 8.0 Runtime 필요)로 해주세요.
-  
+
 - 창의 크기와 위치 유지 방식
     창 크기/위치를 유지할 수 있도록 Application Settings 시스템을 구축해 주세요.
-    
+
+- NSIS Installer
+
+  NSIS_installer 폴더 내에 NationalClock NSIS installer 관련 파일들을 만들려고 합니다.
+
+  - 설치 형식: Framework-dependent (.NET 8.0 Runtime 필요)
+  - 설치 경로: C:\Program Files\NationalClock
+  - 파일명 형식: NationalClock_v1.0.001_Build_20250909_2006_Setup.exe
+  - 아키텍처: x64 최적화
+  - 압축: LZMA 고압축 적용
+
+  현재 NSIS_installer 폴더의 파일들을 살펴보고,
+  NationalClock 용의 installer 관련 파일들로 아래의 파일들을 새로 작성 혹은 수정해 주세요.
+  한국어 관련 인코딩 문제가 생기지 않도록 해주세요.
+
+  - NSIS 스크립트: NationalClock_Installer.nsi
+  - 프로젝트 업데이트 Python 스크립트: 11_UpdateFromProject.py
+  - installer 생성 Python 스크립트: 12_BuildInstaller.py
+  - BuildAll Python 스크립트: 10_BuildAll.py
+  
+- Project_Overview.md 파일 생성

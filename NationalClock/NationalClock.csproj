@@ -20,7 +20,7 @@
     <!-- Custom properties for version display -->
     <ApplicationDisplayName>NationalClock</ApplicationDisplayName>
     <DisplayVersion>1.0.001</DisplayVersion>
-    <BuildDateTime>2025-09-09 19:52</BuildDateTime>
+    <BuildDateTime>2025-09-09 21:25</BuildDateTime>
     
     <!-- Framework-dependent deployment settings -->
     <SelfContained>false</SelfContained>

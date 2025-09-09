@@ -1,0 +1,10 @@
+NationalClock v1.0.001
+빌드 일시: 20250909_2125
+설치파일: NationalClock_v1.0.001_Build_20250909_2125_Setup.exe
+아키텍처: x64
+배포 형식: Framework-dependent
+요구사항: .NET 8.0 Desktop Runtime
+설치 경로: C:\Program Files\NationalClock
+압축 방식: LZMA
+개발사: Green Power Co., Ltd.
+목적: 다중 시간대 월드 클록 WPF 애플리케이션

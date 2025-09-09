@@ -147,6 +147,9 @@ public sealed class ThemeManager
             // Set base theme
             theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
             
+            // Set base theme only - MaterialDesign handles background colors automatically
+            // The previous background color issue was likely due to incorrect usage of theme properties
+            
             _paletteHelper.SetTheme(theme);
             
             System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplyTheme: Theme applied successfully - BaseTheme: {(isDark ? "Dark" : "Light")}");
@@ -169,48 +172,90 @@ public sealed class ThemeManager
             {
                 var theme = _paletteHelper.GetTheme();
                 
-                // Set primary color based on color name
+                // Set primary color based on color name with Material Design color variants
                 switch (colorName.ToLower())
                 {
                     case "red":
-                        theme.SetPrimaryColor(Colors.Red);
+                        theme.SetPrimaryColor(Color.FromRgb(244, 67, 54));  // Material Red 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 138, 128)); // Red A100
                         break;
                     case "pink":
-                        theme.SetPrimaryColor(Colors.DeepPink);
+                        theme.SetPrimaryColor(Color.FromRgb(233, 30, 99));  // Material Pink 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 128, 171)); // Pink A100
                         break;
                     case "purple":
-                        theme.SetPrimaryColor(Colors.Purple);
+                        theme.SetPrimaryColor(Color.FromRgb(156, 39, 176)); // Material Purple 500
+                        theme.SetSecondaryColor(Color.FromRgb(234, 128, 252)); // Purple A100
+                        break;
+                    case "deep purple":
+                        theme.SetPrimaryColor(Color.FromRgb(103, 58, 183)); // Material Deep Purple 500
+                        theme.SetSecondaryColor(Color.FromRgb(179, 136, 255)); // Deep Purple A100
                         break;
                     case "indigo":
-                        theme.SetPrimaryColor(Colors.Indigo);
+                        theme.SetPrimaryColor(Color.FromRgb(63, 81, 181));  // Material Indigo 500
+                        theme.SetSecondaryColor(Color.FromRgb(140, 158, 255)); // Indigo A100
                         break;
                     case "blue":
-                        theme.SetPrimaryColor(Colors.Blue);
+                        theme.SetPrimaryColor(Color.FromRgb(33, 150, 243)); // Material Blue 500
+                        theme.SetSecondaryColor(Color.FromRgb(130, 177, 255)); // Blue A100
                         break;
                     case "light blue":
-                        theme.SetPrimaryColor(Colors.LightBlue);
+                        theme.SetPrimaryColor(Color.FromRgb(3, 169, 244));  // Material Light Blue 500
+                        theme.SetSecondaryColor(Color.FromRgb(128, 216, 255)); // Light Blue A100
                         break;
                     case "cyan":
-                        theme.SetPrimaryColor(Colors.Cyan);
+                        theme.SetPrimaryColor(Color.FromRgb(0, 188, 212));  // Material Cyan 500
+                        theme.SetSecondaryColor(Color.FromRgb(132, 255, 255)); // Cyan A100
                         break;
                     case "teal":
-                        theme.SetPrimaryColor(Colors.Teal);
+                        theme.SetPrimaryColor(Color.FromRgb(0, 150, 136));  // Material Teal 500
+                        theme.SetSecondaryColor(Color.FromRgb(167, 255, 235)); // Teal A100
                         break;
                     case "green":
-                        theme.SetPrimaryColor(Colors.Green);
+                        theme.SetPrimaryColor(Color.FromRgb(76, 175, 80));  // Material Green 500
+                        theme.SetSecondaryColor(Color.FromRgb(185, 246, 202)); // Green A100
+                        break;
+                    case "light green":
+                        theme.SetPrimaryColor(Color.FromRgb(139, 195, 74)); // Material Light Green 500
+                        theme.SetSecondaryColor(Color.FromRgb(204, 255, 144)); // Light Green A100
+                        break;
+                    case "lime":
+                        theme.SetPrimaryColor(Color.FromRgb(205, 220, 57)); // Material Lime 500
+                        theme.SetSecondaryColor(Color.FromRgb(240, 244, 195)); // Lime A100
+                        break;
+                    case "yellow":
+                        theme.SetPrimaryColor(Color.FromRgb(255, 235, 59)); // Material Yellow 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 255, 141)); // Yellow A100
+                        break;
+                    case "amber":
+                        theme.SetPrimaryColor(Color.FromRgb(255, 193, 7));  // Material Amber 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 229, 127)); // Amber A100
                         break;
                     case "orange":
-                        theme.SetPrimaryColor(Colors.Orange);
+                        theme.SetPrimaryColor(Color.FromRgb(255, 152, 0));  // Material Orange 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 209, 128)); // Orange A100
+                        break;
+                    case "deep orange":
+                        theme.SetPrimaryColor(Color.FromRgb(255, 87, 34));  // Material Deep Orange 500
+                        theme.SetSecondaryColor(Color.FromRgb(255, 158, 128)); // Deep Orange A100
+                        break;
+                    case "brown":
+                        theme.SetPrimaryColor(Color.FromRgb(121, 85, 72));  // Material Brown 500
+                        theme.SetSecondaryColor(Color.FromRgb(215, 204, 200)); // Brown 100
+                        break;
+                    case "blue grey":
+                        theme.SetPrimaryColor(Color.FromRgb(96, 125, 139)); // Material Blue Grey 500
+                        theme.SetSecondaryColor(Color.FromRgb(207, 216, 220)); // Blue Grey 100
                         break;
                     default:
-                        theme.SetPrimaryColor(Colors.Blue);
+                        theme.SetPrimaryColor(Color.FromRgb(33, 150, 243)); // Default to Material Blue 500
+                        theme.SetSecondaryColor(Color.FromRgb(130, 177, 255)); // Blue A100
                         break;
                 }
                 
-                // Set secondary color (accent)
-                theme.SetSecondaryColor(Colors.LightBlue);
-                
                 _paletteHelper.SetTheme(theme);
+                
+                System.Diagnostics.Debug.WriteLine($"ThemeManager.ApplyAccentColor: Applied {colorName} color successfully");
             }
         }
         catch (Exception ex)

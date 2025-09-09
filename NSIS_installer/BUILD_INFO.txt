@@ -1,0 +1,33 @@
+==================================================
+NationalClock 빌드 정보
+==================================================
+
+제품명: NationalClock
+버전: 1.0.001
+빌드 일시: 20250909_2125
+설치파일: NationalClock_v1.0.001_Build_20250909_2125_Setup.exe
+
+기술 정보:
+- 플랫폼: .NET 8.0
+- 아키텍처: x64
+- 배포: Framework-dependent
+- UI: WPF with Material Design
+- 압축: LZMA
+
+설치 정보:
+- 설치 경로: C:\Program Files\NationalClock
+- 사용자 데이터: %LocalAppData%\NationalClock
+- 바로가기: 데스크톱, 시작메뉴
+- 자동 시작: 선택사항
+
+시스템 요구사항:
+- Windows 10 이상 (x64)
+- .NET 8.0 Desktop Runtime
+- Material Design UI 지원
+
+주요 기능:
+- 다중 시간대 실시간 표시
+- Material Design 테마 (라이트/다크 모드)
+- 시간대 추가/제거 관리
+- 사용자 설정 저장 및 복원
+- MVVM 패턴 기반 WPF 아키텍처

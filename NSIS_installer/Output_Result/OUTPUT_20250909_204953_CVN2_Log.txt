@@ -1,0 +1,28 @@
+스크립트: A25050831_Change_Version_Name2_07.py
+실행 시간: 2025-09-09 20:49:53
+파일 리스트: A25050831_Change_Version_Name2_INPUT_FileList.json
+문자열 교체 리스트: A25050831_Change_Version_Name2_INPUT_ReplaceStringList.json
+로그 파일: Output_Result\OUTPUT_20250909_204953_CVN2_Log.txt
+--------------------------------------------------------------------------------
+문자열 교체 작업 시작...
+기준 디렉토리: .
+  처리: ..\NationalClock\NationalClock.csproj
+    교체: "<BuildDateTime>2025-09-09 19:52</BuildDateTime>" → "<BuildDateTime>2025-09-09 20:49</BuildDateTime>"
+    교체: ">1.0.0.1<" → ">1.0.0.1<"
+    교체: ">1.0.001<" → ">1.0.001<"
+    결과: 성공
+  처리: 10_BuildAll.py
+    교체: "PRODUCT_VERSION = "1.0.001"" → "PRODUCT_VERSION = "1.0.001""
+    교체: "BUILD_DATE = "20250909_2050"" → "BUILD_DATE = "20250909_2049""
+    결과: 성공
+  처리: 11_UpdateFromProject.py
+    교체: "PRODUCT_VERSION = "1.0.001"" → "PRODUCT_VERSION = "1.0.001""
+    교체: "BUILD_DATE = "20250909_2050"" → "BUILD_DATE = "20250909_2049""
+    결과: 성공
+  처리: 12_BuildInstaller.py
+    교체: "PRODUCT_VERSION = "1.0.001"" → "PRODUCT_VERSION = "1.0.001""
+    교체: "BUILD_DATE = "20250909_2050"" → "BUILD_DATE = "20250909_2049""
+    결과: 성공
+--------------------------------------------------------------------------------
+처리 완료: 성공 4개, 실패 0개
+처리 시간: 0.05초

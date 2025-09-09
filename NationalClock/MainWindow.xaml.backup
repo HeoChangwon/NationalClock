@@ -13,6 +13,57 @@
         WindowStartupLocation="Manual"
         Icon="pack://application:,,,/Resources/NationalClock.ico">
     
+    <Window.Resources>
+        <!-- Clock Item DataTemplate with Enhanced Colors -->
+        <DataTemplate x:Key="ClockItemTemplate">
+            <materialDesign:Card Margin="8" Padding="16" materialDesign:ElevationAssist.Elevation="Dp2"
+                               Background="{DynamicResource MaterialDesignCardBackground}">
+                <materialDesign:Card.Style>
+                    <Style TargetType="materialDesign:Card" BasedOn="{StaticResource MaterialDesignCard}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
+                                <Setter Property="Background" Value="{DynamicResource Primary50}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </materialDesign:Card.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Flag/Emoji with enhanced background -->
+                    <Border Grid.Column="0" Background="{DynamicResource PrimaryHueLightBrush}" 
+                            CornerRadius="20" Width="40" Height="40" 
+                            VerticalAlignment="Center" Margin="0,0,16,0">
+                        <TextBlock Text="{Binding TimeZone.FlagEmoji}" 
+                                   FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    
+                    <!-- Clock Info with enhanced styling -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TimeZone.DisplayName}" 
+                                   FontSize="18" FontWeight="SemiBold" Margin="0,0,0,4"
+                                   Foreground="{DynamicResource MaterialDesignBody}"/>
+                        <TextBlock Text="{Binding FormattedTime}" 
+                                   FontSize="28" FontWeight="Bold" 
+                                   Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                        <TextBlock Text="{Binding DateString}" 
+                                   FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                    </StackPanel>
+                    
+                    <!-- Accent Indicator -->
+                    <Border Grid.Column="2" Width="4" Height="60" 
+                            Background="{DynamicResource SecondaryHueMidBrush}"
+                            CornerRadius="2" VerticalAlignment="Center"/>
+                </Grid>
+            </materialDesign:Card>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,20 +71,35 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <!-- Header with buttons -->
-        <Border Grid.Row="0" Background="{DynamicResource PrimaryHueMidBrush}" Padding="16">
+        <!-- Enhanced Header with Gradient -->
+        <materialDesign:ColorZone Grid.Row="0" Mode="PrimaryDark" Padding="16" 
+                                materialDesign:ElevationAssist.Elevation="Dp4">
+            <materialDesign:ColorZone.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="{DynamicResource Primary600}" Offset="0"/>
+                    <GradientStop Color="{DynamicResource Primary400}" Offset="1"/>
+                </LinearGradientBrush>
+            </materialDesign:ColorZone.Background>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
-                <TextBlock Grid.Column="0" Text="{Binding ClientTitle}" 
+                <!-- App Icon -->
+                <materialDesign:PackIcon Grid.Column="0" Kind="ClockOutline" 
+                                       Width="28" Height="28" 
+                                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                       VerticalAlignment="Center" Margin="0,0,12,0"/>
+                
+                <TextBlock Grid.Column="1" Text="{Binding ClientTitle}" 
                           FontSize="22" FontWeight="Medium"
                           Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
                           VerticalAlignment="Center"/>
                 
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <!-- Enhanced Control Buttons -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <Button Command="{Binding ToggleFormatCommand}" 
                            Margin="4" Padding="8" ToolTip="Toggle 12H/24H Format"
                            Background="Transparent" BorderThickness="0"
@@ -63,42 +129,18 @@
                     </Button>
                 </StackPanel>
             </Grid>
-        </Border>
+        </materialDesign:ColorZone>
         
         <!-- Clock List -->
         <ScrollViewer Grid.Row="1" Margin="16">
-            <ItemsControl ItemsSource="{Binding Clocks}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="8" Padding="16" Background="{DynamicResource MaterialDesignCardBackground}" 
-                                CornerRadius="4" BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <TextBlock Grid.Column="0" Text="{Binding TimeZone.FlagEmoji}" 
-                                           FontSize="24" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                                
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding TimeZone.DisplayName}" 
-                                               FontSize="18" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                                    <TextBlock Text="{Binding FormattedTime}" 
-                                               FontSize="28" FontWeight="Bold" 
-                                               Foreground="{DynamicResource PrimaryHueMidBrush}"/>
-                                    <TextBlock Text="{Binding DateString}" 
-                                               FontSize="14" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+            <ItemsControl ItemsSource="{Binding Clocks}"
+                         ItemTemplate="{StaticResource ClockItemTemplate}">
             </ItemsControl>
         </ScrollViewer>
         
         <!-- Enhanced Status Bar -->
-        <Border Grid.Row="2" Background="{DynamicResource PrimaryHueLightBrush}" Padding="16,8">
+        <materialDesign:ColorZone Grid.Row="2" Mode="PrimaryLight" Padding="16,8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -123,6 +165,6 @@
                               Foreground="{DynamicResource SecondaryHueMidBrush}"/>
                 </StackPanel>
             </Grid>
-        </Border>
+        </materialDesign:ColorZone>
     </Grid>
 </Window>

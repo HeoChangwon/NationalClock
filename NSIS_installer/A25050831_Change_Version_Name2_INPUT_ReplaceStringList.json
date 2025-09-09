@@ -1,0 +1,7 @@
+[
+  {"from": "<BuildDateTime>2025-09-09 20:49</BuildDateTime>",     "to": "<BuildDateTime>2025-09-09 21:25</BuildDateTime>"},
+  {"from": "PRODUCT_VERSION = \"1.0.001\"",               "to": "PRODUCT_VERSION = \"1.0.001\""},
+  {"from": "BUILD_DATE = \"20250909_2049\"",              "to": "BUILD_DATE = \"20250909_2125\""},
+  {"from": ">1.0.0.1<",                                 "to": ">1.0.0.1<"},
+  {"from": ">1.0.001<",                                   "to": ">1.0.001<"}
+]

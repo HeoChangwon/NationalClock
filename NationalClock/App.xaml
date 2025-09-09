@@ -9,12 +9,64 @@
             <ResourceDictionary.MergedDictionaries>
                 <!-- Material Design Resources - BaseTheme will be dynamically updated by ThemeManager -->
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue" />
+                
+                <!-- Additional Material Design Resources for better compatibility -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                
+                <!-- Custom Styles -->
+                <ResourceDictionary Source="Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
-            <!-- Basic Application Resources -->
-            <SolidColorBrush x:Key="PrimaryBrush" Color="#2196F3"/>
-            <SolidColorBrush x:Key="AccentBrush" Color="#FF4081"/>
-            <SolidColorBrush x:Key="BackgroundBrush" Color="White"/>
+            <!-- Dynamic Color Resources that respond to theme changes -->
+            <SolidColorBrush x:Key="AppPrimaryBrush" Color="{DynamicResource Primary500}"/>
+            <SolidColorBrush x:Key="AppSecondaryBrush" Color="{DynamicResource Secondary200}"/>
+            <SolidColorBrush x:Key="AppAccentBrush" Color="{DynamicResource SecondaryHueMidBrush}"/>
+            
+            <!-- Enhanced UI Element Brushes -->
+            <SolidColorBrush x:Key="HeaderGradientStart" Color="{DynamicResource Primary600}"/>
+            <SolidColorBrush x:Key="HeaderGradientEnd" Color="{DynamicResource Primary400}"/>
+            <SolidColorBrush x:Key="CardHoverBrush" Color="{DynamicResource Primary50}"/>
+            <SolidColorBrush x:Key="ButtonHoverBrush" Color="{DynamicResource Primary100}"/>
+            
+            <!-- Custom Gradient Brushes for enhanced visual appeal -->
+            <LinearGradientBrush x:Key="HeaderGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{DynamicResource Primary600}" Offset="0"/>
+                <GradientStop Color="{DynamicResource Primary400}" Offset="1"/>
+            </LinearGradientBrush>
+            
+            <LinearGradientBrush x:Key="CardGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{DynamicResource MaterialDesignCardBackground}" Offset="0"/>
+                <GradientStop Color="{DynamicResource Primary50}" Offset="1"/>
+            </LinearGradientBrush>
+            
+            <!-- Enhanced Button Styles -->
+            <Style x:Key="ColorfulButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            <!-- Enhanced Card Style -->
+            <Style x:Key="ColorfulCard" TargetType="materialDesign:Card" BasedOn="{StaticResource MaterialDesignCard}">
+                <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp8"/>
+                        <Setter Property="Background" Value="{DynamicResource Primary50}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

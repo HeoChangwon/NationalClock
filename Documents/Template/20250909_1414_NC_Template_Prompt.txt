@@ -71,26 +71,25 @@ NationalClock (NC)
     
     
     
-    개발관련 폴더와 문서는 다음과 같습니다.
+    NationalClock 프로젝트의 폴더 구조와 개발관련 문서는 다음과 같습니다.
+
+      프로젝트 폴더 구조는 다음과 같습니다.
+      ```
+      D:\Work_Claude\2025\09\NationalClock\
+      ├── Documents/          (NC Documents 폴더)
+      ├── NationalClock/      (NationalClock 프로젝트 폴더)
+      └── NSIS_installer/     (NSIS Installer 폴더)
+      ```
 
       Requirements 문서(Documents 폴더 내)
-        20250822_0944_NC_Requirements.md
+        20250909_0924_NC_Requirements.md
         
       Design 문서(Documents 폴더 내)
-        20250822_0945_NC_Design.md
+        20250909_0925_NC_Design.md
         
-      Task list 문서(Documents 폴더 내)
-        20250822_0946_NC_Task_list.md
-        
-      Work list 문서(Documents 폴더 내)
-        20250825_1328_NC_Work_list_total.md
-    
-    프로젝트 폴더 구조는 다음과 같습니다.
-    ```
-    D:\Work_Claude\2025\09\NationalClock\
-    ├── NationalClock/
-    └── Documents/
-    ```
+      마지막 Work list 문서(Documents 폴더 내)
+        20250909_1541_NC_Work_list.md
+
 
   Prompt:
 이번 Chat에서 작업한 내용을 Documents 폴더에 20250904_2007_NC_Work_list.md 파일로 정리해 주세요.
