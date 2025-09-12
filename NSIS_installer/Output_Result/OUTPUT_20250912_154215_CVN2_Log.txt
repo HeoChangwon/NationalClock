@@ -1,0 +1,19 @@
+스크립트: A25050831_Change_Version_Name2_07.py
+실행 시간: 2025-09-12 15:42:15
+파일 리스트: A25050831_Change_Version_Name2_INPUT_FileList.json
+문자열 교체 리스트: A25050831_Change_Version_Name2_INPUT_ReplaceStringList.json
+로그 파일: Output_Result\OUTPUT_20250912_154215_CVN2_Log.txt
+--------------------------------------------------------------------------------
+문자열 교체 작업 시작...
+기준 디렉토리: .
+  처리: ..\NationalClock\NationalClock.csproj
+    결과: 변경사항 없음
+  처리: 10_BuildAll.py
+    결과: 변경사항 없음
+  처리: 11_UpdateFromProject.py
+    결과: 변경사항 없음
+  처리: 12_BuildInstaller.py
+    결과: 변경사항 없음
+--------------------------------------------------------------------------------
+처리 완료: 성공 0개, 실패 4개
+처리 시간: 0.15초

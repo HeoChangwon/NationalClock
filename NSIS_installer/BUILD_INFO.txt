@@ -4,8 +4,8 @@ NationalClock 빌드 정보
 
 제품명: NationalClock
 버전: 1.0.001
-빌드 일시: 20250909_2125
-설치파일: NationalClock_v1.0.001_Build_20250909_2125_Setup.exe
+빌드 일시: 20250912_1702
+설치파일: NationalClock_v1.0.001_Build_20250912_1702_Setup.exe
 
 기술 정보:
 - 플랫폼: .NET 8.0

@@ -84,6 +84,11 @@ public class Settings
     public string ThemeAccentColor { get; set; } = "Blue";
 
     /// <summary>
+    /// Background color for the main window (first run default is light blue)
+    /// </summary>
+    public string BackgroundColor { get; set; } = "Default";
+
+    /// <summary>
     /// Update interval in seconds (minimum 1 second)
     /// </summary>
     public int UpdateIntervalSeconds { get; set; } = 1;
@@ -135,6 +140,7 @@ public class Settings
             ShowTimeZoneOffset = ShowTimeZoneOffset,
             IsCompactMode = IsCompactMode,
             ThemeAccentColor = ThemeAccentColor,
+            BackgroundColor = BackgroundColor,
             UpdateIntervalSeconds = UpdateIntervalSeconds,
             Culture = Culture,
             Version = Version,

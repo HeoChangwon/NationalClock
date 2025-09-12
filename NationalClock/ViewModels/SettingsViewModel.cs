@@ -62,6 +62,9 @@ public partial class SettingsViewModel : BaseViewModel
     private string _selectedAccentColor = "Blue";
 
     [ObservableProperty]
+    private string _selectedBackgroundColor = "Default";
+
+    [ObservableProperty]
     private int _updateIntervalSeconds = 1;
 
     [ObservableProperty]
@@ -109,6 +112,131 @@ public partial class SettingsViewModel : BaseViewModel
     /// Gets the accent color names for binding to UI
     /// </summary>
     public List<string> AccentColorNames => AvailableAccentColors.Keys.ToList();
+
+    /// <summary>
+    /// Gets the available background colors for UI binding
+    /// </summary>
+    public static Dictionary<string, System.Windows.Media.Color> AvailableBackgroundColors => new()
+    {
+        { "Default", System.Windows.Media.Colors.Transparent },
+        { "White", System.Windows.Media.Colors.White },
+        { "LightBlue", System.Windows.Media.Colors.LightBlue },
+        { "LightGray", System.Windows.Media.Colors.LightGray },
+        { "LightGreen", System.Windows.Media.Colors.LightGreen },
+        { "LightYellow", System.Windows.Media.Colors.LightYellow },
+        { "LightPink", System.Windows.Media.Colors.LightPink },
+        { "LightCyan", System.Windows.Media.Colors.LightCyan },
+        { "Beige", System.Windows.Media.Colors.Beige },
+        { "Lavender", System.Windows.Media.Colors.Lavender }
+    };
+
+    /// <summary>
+    /// Gets the background color names for binding to UI
+    /// </summary>
+    public List<string> BackgroundColorNames => AvailableBackgroundColors.Keys.ToList();
+
+    /// <summary>
+    /// Command to preview the selected background color
+    /// </summary>
+    [RelayCommand]
+    private void PreviewBackground()
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(SelectedBackgroundColor))
+                return;
+
+            System.Diagnostics.Debug.WriteLine($"Previewing background color: {SelectedBackgroundColor}");
+
+            // Find MainWindow and apply preview background color
+            var mainWindow = System.Windows.Application.Current.MainWindow;
+            if (mainWindow is MainWindow window)
+            {
+                // Apply custom background color temporarily
+                if (SelectedBackgroundColor == "Default")
+                {
+                    // Restore to theme-based background
+                    var settings = _settingsManager.CurrentSettings;
+                    if (settings.IsDarkMode)
+                    {
+                        window.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(48, 48, 48));
+                    }
+                    else
+                    {
+                        window.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        var colorProperty = typeof(System.Windows.Media.Colors).GetProperty(SelectedBackgroundColor);
+                        if (colorProperty != null)
+                        {
+                            var color = (System.Windows.Media.Color)colorProperty.GetValue(null)!;
+                            window.Background = new System.Windows.Media.SolidColorBrush(color);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error applying preview color: {ex.Message}");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error previewing background color: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Restores the original background color (used when canceling changes)
+    /// </summary>
+    private void RestoreOriginalBackgroundColor()
+    {
+        try
+        {
+            var mainWindow = System.Windows.Application.Current.MainWindow;
+            if (mainWindow is MainWindow window)
+            {
+                var originalColor = _originalSettings.BackgroundColor;
+                
+                if (originalColor == "Default")
+                {
+                    // Restore to theme-based background
+                    if (_originalSettings.IsDarkMode)
+                    {
+                        window.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(48, 48, 48));
+                    }
+                    else
+                    {
+                        window.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        var colorProperty = typeof(System.Windows.Media.Colors).GetProperty(originalColor);
+                        if (colorProperty != null)
+                        {
+                            var color = (System.Windows.Media.Color)colorProperty.GetValue(null)!;
+                            window.Background = new System.Windows.Media.SolidColorBrush(color);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error restoring original background color: {ex.Message}");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error restoring original background color: {ex.Message}");
+        }
+    }
 
     /// <summary>
     /// Command to add the selected timezone to enabled list
@@ -400,6 +528,9 @@ public partial class SettingsViewModel : BaseViewModel
             // Clear unsaved changes flag
             HasUnsavedChanges = false;
 
+            // Restore original background color
+            RestoreOriginalBackgroundColor();
+
             System.Diagnostics.Debug.WriteLine("Settings changes cancelled");
 
             // Close settings window (will be implemented in Phase 4)
@@ -509,6 +640,7 @@ public partial class SettingsViewModel : BaseViewModel
             IsCompactMode = _workingSettings.IsCompactMode;
             AutoStartWithWindows = _workingSettings.AutoStartWithWindows;
             SelectedAccentColor = _workingSettings.ThemeAccentColor;
+            SelectedBackgroundColor = _workingSettings.BackgroundColor;
             UpdateIntervalSeconds = _workingSettings.UpdateIntervalSeconds;
 
             HasUnsavedChanges = false;
@@ -636,6 +768,7 @@ public partial class SettingsViewModel : BaseViewModel
         _workingSettings.IsCompactMode = IsCompactMode;
         _workingSettings.AutoStartWithWindows = AutoStartWithWindows;
         _workingSettings.ThemeAccentColor = SelectedAccentColor;
+        _workingSettings.BackgroundColor = SelectedBackgroundColor;
         _workingSettings.UpdateIntervalSeconds = UpdateIntervalSeconds;
         _workingSettings.EnabledTimeZoneIds = EnabledTimeZones
             .Where(tz => tz != null)

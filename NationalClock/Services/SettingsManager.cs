@@ -91,6 +91,14 @@ public sealed class SettingsManager
 
         // Return default settings if loading failed or file doesn't exist
         var defaultSettings = new Settings();
+        
+        // Set first run background color to light blue
+        if (!File.Exists(_settingsFilePath))
+        {
+            defaultSettings.BackgroundColor = "LightBlue";
+            System.Diagnostics.Debug.WriteLine("SettingsManager: First run - setting background color to LightBlue");
+        }
+        
         defaultSettings.ValidateAndFix();
         
         // Save default settings

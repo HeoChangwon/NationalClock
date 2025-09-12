@@ -1,6 +1,37 @@
 
   Prompt:
 
+    NationalClock 프로젝트의 폴더 구조와 개발관련 문서는 다음과 같습니다.
+    
+    NC Documents 폴더에 다음을 만들어 주세요.
+    NationalClock 의 User manual을 20250912_1554_NC_User_manual.md 파일로,
+    Simple user manual을 20250912_1555_NC_Simple_user_manual.md 파일로 만들어 주세요.
+
+      프로젝트 폴더 구조는 다음과 같습니다.
+      ```
+      D:\Work_Claude\2025\09\NationalClock\
+      ├── Documents/          (NC Documents 폴더)
+      ├── NationalClock/      (NationalClock 프로젝트 폴더)
+      └── NSIS_installer/     (NSIS Installer 폴더)
+      ```
+
+      Requirements 문서(Documents 폴더 내)
+        20250909_0924_NC_Requirements.md
+        
+      Design 문서(Documents 폴더 내)
+        20250909_0925_NC_Design.md
+        
+      Task list 문서(Documents 폴더 내)
+        20250909_0926_NC_Task_list.md
+        
+      마지막 Work list 문서(Documents 폴더 내)
+        20250909_1004_NC_Work_list_phase1.md
+        20250909_1012_NC_Work_list_phase2.md
+        20250909_1018_NC_Work_list_phase3.md
+        20250909_1025_NC_Work_list_phase4.md
+        20250909_1035_NC_Work_list_phase5.md
+        20250909_1541_NC_Work_list.md
+        20250909_2003_NC_Work_list.md
 
 
   Prompt:
@@ -32,11 +63,11 @@
 요약 및 프롬프트 양식 샘플 ------------------------------
 NationalClock (NC)
 
-20250904_2004 : Prompt
-20250904_2005 : Development note
-20250904_2006 : Chat
-20250904_2007 : Work list
-20250904_2008 : Next chat prompt
+20250912_1553 : Prompt
+20250912_1554 : Development note
+20250912_1555 : Chat
+20250912_1556 : Work list
+20250912_1557 : Next chat prompt
 
   Claude 실행위치
     D:\Work_Claude\2025\09\NationalClock
@@ -45,10 +76,10 @@ NationalClock (NC)
     D:\Work_Claude\2025\09\NationalClock\Documents
 
   Development notes 문서(Documents 폴더)
-    20250904_2005_NC_Development_notes_with_AI.txt
+    20250912_1554_NC_Development_notes_with_AI.txt
     
   chat export하여 저장할 파일명(Documents 폴더)
-    /export .\Documents\20250904_2006_NC_Chat.txt
+    /export .\Documents\20250912_1555_NC_Chat.txt
         
   Requirements 문서(NC Documents 폴더 내)
     20250822_0944_NC_Requirements.md
@@ -101,11 +132,11 @@ NationalClock (NC)
 
 
   Prompt:
-이번 Chat에서 작업한 내용을 Documents 폴더에 20250904_2007_NC_Work_list.md 파일로 정리해 주세요.
+이번 Chat에서 작업한 내용을 Documents 폴더에 20250912_1556_NC_Work_list.md 파일로 정리해 주세요.
 
 그리고, 작업 내용을 계속 누적해서 정리해 나가는 20250825_1328_NC_Work_list_total.md 파일에도 업데이트해주세요.    
     
-또, 다음 Chat에서 이번 Chat의 맥락을 이어서 작업해 나가기 위한 프롬프트를 다음 Chat 시점을 기준으로 20250904_2008_NC_Next_chat_prompt.md 파일로 작성해 주세요.
+또, 다음 Chat에서 이번 Chat의 맥락을 이어서 작업해 나가기 위한 프롬프트를 다음 Chat 시점을 기준으로 20250912_1557_NC_Next_chat_prompt.md 파일로 작성해 주세요.
 그리고, 대기해 주세요.
     
 ------------------------------------------------

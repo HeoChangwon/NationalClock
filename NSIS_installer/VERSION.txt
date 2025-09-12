@@ -1,6 +1,6 @@
 NationalClock v1.0.001
-빌드 일시: 20250909_2125
-설치파일: NationalClock_v1.0.001_Build_20250909_2125_Setup.exe
+빌드 일시: 20250912_1702
+설치파일: NationalClock_v1.0.001_Build_20250912_1702_Setup.exe
 아키텍처: x64
 배포 형식: Framework-dependent
 요구사항: .NET 8.0 Desktop Runtime

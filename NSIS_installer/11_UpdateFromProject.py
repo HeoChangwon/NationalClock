@@ -25,7 +25,7 @@ if sys.stdout.encoding != 'utf-8':
 # ==========================================
 PRODUCT_NAME = "NationalClock"
 PRODUCT_VERSION = "1.0.001"
-BUILD_DATE = "20250909_2125"
+BUILD_DATE = "20250912_1702"
 PROJECT_FILE = "NationalClock.csproj"
 
 def print_header():

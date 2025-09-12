@@ -131,11 +131,43 @@
                                 </StackPanel>
                             </ToggleButton>
                             
-                            <ComboBox materialDesign:HintAssist.Hint="Accent Color"
+                            <ComboBox materialDesign:HintAssist.Hint="Theme Accent Color"
                                     ItemsSource="{Binding AccentColorNames}"
                                     SelectedItem="{Binding SelectedAccentColor}"
                                     Style="{StaticResource MaterialDesignComboBox}"
                                     Margin="0,8"/>
+                            
+                            <TextBlock Text="Window Background Color" 
+                                     FontWeight="SemiBold" 
+                                     Margin="0,16,0,4"/>
+                            <TextBlock Text="Choose the background color for the main window. Changes are applied when you save settings." 
+                                     FontSize="11" 
+                                     Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                     TextWrapping="Wrap"
+                                     Margin="0,0,0,8"/>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <ComboBox Grid.Column="0"
+                                        materialDesign:HintAssist.Hint="Background Color"
+                                        ItemsSource="{Binding BackgroundColorNames}"
+                                        SelectedItem="{Binding SelectedBackgroundColor}"
+                                        Style="{StaticResource MaterialDesignComboBox}"
+                                        Margin="0,0,8,0"/>
+                                        
+                                <Button Grid.Column="1"
+                                        Command="{Binding PreviewBackgroundCommand}"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        BorderBrush="{DynamicResource SecondaryHueMidBrush}"
+                                        Foreground="{DynamicResource SecondaryHueMidBrush}"
+                                        Content="Preview"
+                                        Padding="12,6"
+                                        ToolTip="Preview background color without saving"/>
+                            </Grid>
                             
                             <Button Command="{Binding PreviewThemeCommand}"
                                     Style="{StaticResource MaterialDesignOutlinedButton}"

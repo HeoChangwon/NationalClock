@@ -1,0 +1,42 @@
+==================================================
+NationalClock 설치파일 정보
+==================================================
+
+파일명: NationalClock_v1.0.001_Build_20250912_1702_Setup.exe
+빌드 일시: 20250912_1702
+파일 크기: 2 MB (2,468,633 bytes)
+
+제품 정보:
+- 제품명: NationalClock
+- 버전: 1.0.001
+- 아키텍처: x64
+- 배포 형식: Framework-dependent
+- 압축: LZMA
+
+설치 정보:
+- 설치 경로: C:\Program Files\NationalClock
+- 사용자 데이터: %LocalAppData%\NationalClock
+- 바로가기: 데스크톱, 시작메뉴
+- 시작프로그램: 선택사항
+
+시스템 요구사항:
+- Windows 10 이상 (x64)
+- .NET 8.0 Desktop Runtime
+- 관리자 권한 (설치 시)
+
+개발 정보:
+- 개발사: Green Power Co., Ltd.
+- 프레임워크: WPF (.NET 8.0)
+- UI 디자인: Material Design
+- 아키텍처: MVVM Pattern
+
+사용법:
+1. 관리자 권한으로 설치파일 실행
+2. 설치 마법사 따라 진행
+3. .NET 8.0 Desktop Runtime 설치 안내 확인
+4. 설치 완료 후 바로가기로 실행
+
+주의사항:
+- 이전 버전이 설치된 경우 업그레이드/제거 선택 가능
+- 사용자 설정 보존 옵션 제공
+- 방화벽 설정에서 차단되지 않도록 주의

@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Windows;
 using NationalClock.ViewModels;
 using NationalClock.Services;
+using NationalClock.Models;
 
 namespace NationalClock;
 
@@ -37,10 +38,16 @@ public partial class MainWindow : Window
         // Subscribe to theme changes for dynamic updates
         ThemeManager.Instance.ThemeChanged += OnThemeChanged;
         
+        // Subscribe to settings changes for background color updates
+        _settingsManager.SettingsChanged += OnSettingsChanged;
+        
         System.Diagnostics.Debug.WriteLine($"MainWindow: Before LoadWindowSettings - Position: {Left}, {Top}");
         
         // Load and apply window settings after ViewModel is initialized
         LoadWindowSettings();
+        
+        // Apply background color from settings
+        ApplyBackgroundColor();
         
         System.Diagnostics.Debug.WriteLine($"MainWindow: After LoadWindowSettings - Position: {Left}, {Top}");
         System.Diagnostics.Debug.WriteLine("MainWindow: Constructor completed");
@@ -122,12 +129,59 @@ public partial class MainWindow : Window
     }
 
     /// <summary>
+    /// Applies background color from settings
+    /// </summary>
+    private void ApplyBackgroundColor()
+    {
+        try
+        {
+            var settings = _settingsManager.CurrentSettings;
+            var colorName = settings.BackgroundColor;
+            
+            // Apply custom background color from settings
+            if (!string.IsNullOrEmpty(colorName))
+            {
+                try
+                {
+                    var colorProperty = typeof(System.Windows.Media.Colors).GetProperty(colorName);
+                    if (colorProperty != null)
+                    {
+                        var color = (System.Windows.Media.Color)colorProperty.GetValue(null)!;
+                        Background = new System.Windows.Media.SolidColorBrush(color);
+                        System.Diagnostics.Debug.WriteLine($"Applied background color: {colorName}");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error applying custom background color {colorName}: {ex.Message}");
+                }
+            }
+            
+            // Fall back to theme-based color if custom color fails
+            OnThemeChanged(null, _settingsManager.CurrentSettings.IsDarkMode);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error applying background color: {ex.Message}");
+        }
+    }
+
+    /// <summary>
     /// Handles theme changes to update window appearance
     /// </summary>
     private void OnThemeChanged(object? sender, bool isDarkMode)
     {
         try
         {
+            // Check if we should use custom background color instead
+            var settings = _settingsManager.CurrentSettings;
+            if (!string.IsNullOrEmpty(settings.BackgroundColor) && settings.BackgroundColor != "Default")
+            {
+                ApplyBackgroundColor();
+                return;
+            }
+            
             // Simple theme switching without Material Design
             if (isDarkMode)
             {
@@ -141,6 +195,22 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error updating theme: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Handles settings changes to update window appearance
+    /// </summary>
+    private void OnSettingsChanged(object? sender, Settings settings)
+    {
+        try
+        {
+            // Apply background color from updated settings
+            ApplyBackgroundColor();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error handling settings change: {ex.Message}");
         }
     }
 
@@ -159,6 +229,7 @@ public partial class MainWindow : Window
             
             // Unsubscribe from events
             ThemeManager.Instance.ThemeChanged -= OnThemeChanged;
+            _settingsManager.SettingsChanged -= OnSettingsChanged;
         }
         catch (Exception ex)
         {
